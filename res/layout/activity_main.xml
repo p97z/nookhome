@@ -1,0 +1,112 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+        <LinearLayout
+    	android:id="@+id/linearLayoutBottom"
+    	android:layout_width="fill_parent"
+    	android:layout_height="56dp"
+    	android:layout_gravity="center"
+    	android:layout_marginTop="8dp" >
+
+        <LinearLayout
+            android:id="@+id/mem_layout"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:clickable="true"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/mem_title"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/normal_transparent"
+                android:gravity="center"
+                android:text="@string/main_layout"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/normal_fg" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/mem_level"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@color/normal_transparent"
+                android:gravity="center"
+                android:text="@string/main_layout_mem"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/normal_fg"
+                android:textStyle="bold" >
+            </TextView>
+        </LinearLayout>
+
+
+
+        <ImageButton
+            android:id="@+id/all_apps_btn"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="0.65"
+            android:contentDescription="@string/all_apps"
+            android:background="@drawable/main_button"
+            android:src="@drawable/grid"
+            android:text="@string/all_apps" >
+        </ImageButton>
+
+        <LinearLayout
+            android:id="@+id/bat_layout"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:clickable="true"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/bat_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@color/normal_transparent"
+                android:drawableRight="@drawable/wifi_on"
+                android:gravity="center"
+                android:text="@string/main_launcher_nb_layout_battery"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/normal_fg" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/bat_level"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@color/normal_transparent"
+                android:gravity="center"
+                android:text="@string/main_launcher_nb_layout_b"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/normal_fg"
+                android:textStyle="bold" >
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

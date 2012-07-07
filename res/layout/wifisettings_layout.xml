@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/normal_bg"
+    android:orientation="vertical"
+    android:padding="8dp" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="56dp" >
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="2.8"
+            android:background="@drawable/main_button"
+            android:minWidth="96dp"
+            android:src="@drawable/back_button_normal" >
+        </ImageButton>
+        
+        <TextView
+            android:id="@+id/wifisettings_title"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/normal_bg_gray"
+            android:focusable="false"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="8dp"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/normal_fg"
+            android:textStyle="bold" />
+
+		<ImageView
+            android:id="@+id/wifi_settings_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:contentDescription=""
+            android:background="@color/normal_bg_gray"
+            android:src="@drawable/tools" />
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/wifi_lv_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="8dp"
+        android:layout_weight="0.4"
+        android:background="@drawable/main_button"
+        android:padding="8dp" >
+
+        <ListView
+            android:id="@+id/wifi_settings_list_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="4dp"
+        android:layout_weight="0.5" >
+
+        <Button
+            android:id="@+id/wifi_scan_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableTop="@drawable/wifiscan"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:text="@string/wifi_settings_scan" >
+        </Button>
+
+        <Button
+            android:id="@+id/wifi_onoff_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/wifi_off"
+            android:drawableRight="@drawable/wifi_off"
+            android:drawableTop="@drawable/wifi"
+            android:paddingBottom="16dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:text="@string/wifi_settings_wifi_off" >
+        </Button>
+
+        <Button
+            android:id="@+id/wifi_setup_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableTop="@drawable/wifisetup"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:text="@string/wifi_settings_setup_wifi" >
+        </Button>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="8dp"
+        android:layout_weight="0.4"
+        android:background="@drawable/main_button"
+        android:orientation="vertical"
+        android:padding="4dp" >
+
+        <WebView
+            android:id="@+id/webview1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:fadeScrollbars="false" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout10"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="8dp"
+        android:layout_weight="0.5" >
+
+        <Button
+            android:id="@+id/lock_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableTop="@drawable/lock"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:text="@string/wifi_settings_lock" >
+        </Button>
+
+        <Button
+            android:id="@+id/reboot_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableTop="@drawable/reboot"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:text="@string/wifi_settings_reboot" >
+        </Button>
+
+        <Button
+            android:id="@+id/poweroff_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableTop="@drawable/power"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:text="@string/wifi_settings_poweroff" >
+        </Button>
+    </LinearLayout>
+
+</LinearLayout>
