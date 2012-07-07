@@ -5,14 +5,14 @@ import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -23,8 +23,12 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v4.app.NavUtils;
 
+
+/**
+ * @author p97z
+ *
+ */
 public class MainActivity extends Activity {
 
 	private TextView wifiText;
@@ -44,19 +48,42 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
         
-        boolean homeKey;
+//        boolean homeKey;
         // were we called from our home button?
-        final Intent data = getIntent();
-        if (data.getExtras() == null) {
-        	homeKey = false;
-		} else {
-			homeKey = data.getBooleanExtra("home", false);
-		}
+//        final Intent data = getIntent();
+ //       if (data.getExtras() == null) {
+  //      	homeKey = false;
+//		} else {
+	//		homeKey = data.getBooleanExtra("home", false);
+//		}
         
         setupAllAppsButton();
         // set the text on the button
 		setupBatteryButton();
 	
+		registerForEvents();
+		
+		drawButtons();
+    }
+
+	@Override
+	public void onDestroy() {
+
+		unregisterForEvents();
+		super.onDestroy();
+	}
+	
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
+
+    /*
+     * Registers for intents like, power, wifi and battery level
+     */
+    private void registerForEvents()
+    {
 		if (!powerReceiverRegistered) {
 			IntentFilter filter = new IntentFilter();
 			filter.addAction(Intent.ACTION_POWER_CONNECTED);
@@ -77,28 +104,33 @@ public class MainActivity extends Activity {
 			registerReceiver(this.BatteryChangeReceiver, new IntentFilter(batteryLevelFilter));
 			batteryLevelRegistered = true;
 		}
-		
-		drawButtons();
-    }
-
-	@Override
-	public void onDestroy() {
-
-		unregisterReceiver(this.PowerChangeReceiver);
-		unregisterReceiver(this.WiFiChangeReceiver);
-		unregisterReceiver(this.BatteryChangeReceiver);
-		wifiReceiverRegistered = false;
-		powerReceiverRegistered = false;
-		batteryLevelRegistered = false;
-		super.onDestroy();
-	}
-	
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
     }
     
+    /*
+     * unregister for power, wifi and battery intents
+     */
+    private void unregisterForEvents()
+    {
+    	if (powerReceiverRegistered)
+    	{
+    		unregisterReceiver(this.PowerChangeReceiver);
+    		powerReceiverRegistered = false;
+    	}
+    	if (wifiReceiverRegistered)
+    	{
+        	unregisterReceiver(this.WiFiChangeReceiver);
+        	wifiReceiverRegistered = false;    		
+    	}
+		if (batteryLevelRegistered)
+		{
+			unregisterReceiver(this.BatteryChangeReceiver);
+			batteryLevelRegistered = false;
+		}
+    }
+    
+	/* 
+	 * sets up the battery layout as a button... 
+	 */
     private void setupBatteryButton()
     {
     	final LinearLayout batteryLayout = (LinearLayout) findViewById(R.id.bat_layout);
@@ -106,19 +138,31 @@ public class MainActivity extends Activity {
 		{
 			class BatterySimpleOnGestureListener extends SimpleOnGestureListener 
 			{
+				/* 
+				 * The user touched the battery button so show the wifi dialog
+				 */
 				@Override public boolean onSingleTapConfirmed(MotionEvent e)
 				{
-					// toggle the wifi
-					//toggleWiFi();
+					// show the wifisettings activity
 					Intent i = new Intent(MainActivity.this, WiFiSettings.class);
 					startActivity(i);
 					return true;
 				}
-		
+				
+				/* 
+				 * ignore double click
+				 */		
 				@Override public boolean onDoubleTap(MotionEvent e) {	return true; }
 		
-				@Override public void onLongPress(MotionEvent e) {	}
+				/* 
+				 * Long press ask the user if they want to toggle
+				 */
+				@Override public void onLongPress(MotionEvent e) 
+				{
+					AskToggleWiFi();
+				}
 			}
+
 			final GestureDetector batteryGestureDetector = new GestureDetector(new BatterySimpleOnGestureListener());
 			batteryLayout.setOnTouchListener(new View.OnTouchListener() 
 			{
@@ -132,6 +176,34 @@ public class MainActivity extends Activity {
 		
 		batteryText = (TextView) findViewById(R.id.bat_level);
 		wifiText = (TextView) findViewById(R.id.bat_title);		
+    }
+    
+    
+    /**
+     * Ask the user if they want to toggle the WiFi state
+     */
+    private void AskToggleWiFi()
+    {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(getResources().getString(
+				R.string.main_wifi_toggle_title));
+		builder.setMessage(getResources().getString(
+				R.string.main_wifi_toggle_message));
+		
+		builder.setPositiveButton(
+				getResources().getString(R.string.main_yes),
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,	int which) {
+						toggleWiFi();
+					}
+				});
+		// "NO"
+		builder.setNegativeButton(
+				getResources().getString(R.string.main_no),
+				null);
+
+		builder.show();
+
     }
     
 	/**
@@ -217,6 +289,9 @@ public class MainActivity extends Activity {
 		}
 	}
 	
+	/*
+	 * draws the button text
+	 */
 	private void drawButtons()
 	{
 		// Wifi status
@@ -246,7 +321,10 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	private void DrawBatteryLevel(Context context, Intent intent)
+	/*
+	 * puts the battery level text inside the battery button
+	 */
+	private void drawBatteryLevel(Context context, Intent intent)
 	{
 		int rawlevel = intent.getIntExtra(
 				BatteryManager.EXTRA_LEVEL, -1);
@@ -313,7 +391,7 @@ public class MainActivity extends Activity {
 	private BroadcastReceiver BatteryChangeReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			DrawBatteryLevel(context,intent);			
+			drawBatteryLevel(context,intent);			
 		}
 	};
 	

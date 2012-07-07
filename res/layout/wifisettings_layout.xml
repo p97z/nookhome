@@ -50,11 +50,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/wifi_lv_layout"
+        android:id="@+id/wifi_listview_layout"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="8dp"
-        android:layout_weight="0.4"
+        android:layout_height="300px"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
         android:background="@drawable/main_button"
         android:padding="8dp" >
 
@@ -68,14 +68,14 @@
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="4dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="40dp"
         android:layout_weight="0.5" >
 
         <Button
             android:id="@+id/wifi_scan_btn"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="110dp"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/main_button"
@@ -90,7 +90,7 @@
         <Button
             android:id="@+id/wifi_onoff_btn"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="110dp"
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
@@ -108,7 +108,7 @@
         <Button
             android:id="@+id/wifi_setup_btn"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="110dp"
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
@@ -123,36 +123,18 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="8dp"
-        android:layout_weight="0.4"
-        android:background="@drawable/main_button"
-        android:orientation="vertical"
-        android:padding="4dp" >
-
-        <WebView
-            android:id="@+id/webview1"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:fadeScrollbars="false" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/linearLayout10"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="100dp"
         android:layout_marginTop="8dp"
         android:layout_weight="0.5" >
 
         <Button
             android:id="@+id/lock_btn"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
+            android:layout_height="110dp"
             android:layout_weight="1"
+            android:layout_gravity="center"
             android:background="@drawable/main_button"
             android:drawableTop="@drawable/lock"
             android:paddingBottom="16dp"
@@ -165,10 +147,10 @@
         <Button
             android:id="@+id/reboot_btn"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="110dp"
+            android:layout_weight="1"
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
-            android:layout_weight="1"
             android:background="@drawable/main_button"
             android:drawableTop="@drawable/reboot"
             android:paddingBottom="16dp"
@@ -181,7 +163,7 @@
         <Button
             android:id="@+id/poweroff_btn"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="110dp"
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"

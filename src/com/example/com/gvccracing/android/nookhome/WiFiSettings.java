@@ -25,7 +25,6 @@ import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -275,13 +274,6 @@ public class WiFiSettings extends Activity {
 			return "[\u25A0\u25A1\u25A1\u25A1\u25A1]";
 		return "[\u25A1\u25A1\u25A1\u25A1\u25A1]";
 	}
-
-	private String sp(int n) {
-		String rc = "";
-		for (int i = 0; i < n; i++)
-			rc += "&nbsp;";
-		return rc;
-	}
 /*
 	private int getMyId() {
 		int rc = -1;
@@ -401,11 +393,6 @@ public class WiFiSettings extends Activity {
 
 		// UID
 //		myId = getMyId();
-
-		// Wifi
-		wfm = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-		wifiOn = wfm.isWifiEnabled();
-		wifiNetworks = readScanResults(wfm);
 	}
 
 	private List<NetInfo> readScanResults(WifiManager w) {
@@ -525,6 +512,13 @@ public class WiFiSettings extends Activity {
 		setContentView(R.layout.wifisettings_layout);
 
 		createInfo();
+		
+		// initialize wifi
+		// Wifi
+		wfm = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		wifiOn = wfm.isWifiEnabled();
+		wifiNetworks = readScanResults(wfm);
+
 		((TextView) findViewById(R.id.wifisettings_title)).setText(getResources()
 				.getString(R.string.wifi_settings_title));
 		// finish this activity when the user clicks the back button at the top
@@ -631,82 +625,6 @@ public class WiFiSettings extends Activity {
 				PowerFunctions.actionPowerOff(parent);
 			}
 		});
-
-		// Web info view
-		WebView wv = (WebView) findViewById(R.id.webview1);
-		final int ntitle1 = 3;
-		final int ntitle2 = 8;
-		// "<h2><center>Disks/partitions</center></h2><table>"
-		String s = "<h3><center>"
-				+ getResources().getString(
-						R.string.wifi_settings_disks_partitions)
-				+ "</center></h3><table>";
-		s += "<tr>"
-		// + "<td><b>" + sp(ntitle1) + "Mount point" + sp(ntitle2) + "</b></td>"
-				+ "<td><b>"
-				+ sp(ntitle1)
-				+ getResources().getString(
-						R.string.wifi_settings_mount_mountpoint)
-				+ sp(ntitle2)
-				+ "</b></td>"
-				// + "<td><b>" + sp(ntitle1) + "FS" + sp(ntitle2) + "</b></td>"
-				+ "<td><b>"
-				+ sp(ntitle1)
-				+ getResources().getString(R.string.wifi_settings_mount_FS)
-				+ sp(ntitle2)
-				+ "</b></td>"
-				// + "<td><b>" + sp(ntitle1) + "total" + sp(ntitle2) +
-				// "</b></td>"
-				+ "<td><b>"
-				+ sp(ntitle1)
-				+ getResources().getString(R.string.wifi_settings_mount_total)
-				+ sp(ntitle2)
-				+ "</b></td>"
-				// + "<td><b>" + sp(ntitle1) + "used" + sp(ntitle2) +
-				// "</b></td>"
-				+ "<td><b>"
-				+ sp(ntitle1)
-				+ getResources().getString(R.string.wifi_settings_mount_used)
-				+ sp(ntitle2)
-				+ "</b></td>"
-				// + "<td><b>" + sp(ntitle1) + "free" + sp(ntitle2) +
-				// "</b></td>"
-				+ "<td><b>"
-				+ sp(ntitle1)
-				+ getResources().getString(R.string.wifi_settings_mount_free)
-				+ sp(ntitle2)
-				+ "</b></td>"
-				// + "<td><b>" + sp(ntitle1) + "RO/RW" + sp(ntitle2) +
-				// "</b></td>"
-				+ "<td><b>" + sp(ntitle1)
-				+ getResources().getString(R.string.wifi_settings_mount_rorw)
-				+ sp(ntitle2) + "</b></td>" + "</tr>";
-		for (Info i : infos)
-			s += "<tr>" + "<td>"
-					+ i.mpoint
-					+ "</td>"
-					+ "<td>"
-					+ i.fs
-					+ "</td>"
-					+ "<td>"
-					+ i.total
-					+ "</td>"
-					+ "<td>"
-					+ i.used
-					+ "</td>"
-					+ "<td>"
-					+ i.free
-					+ "</td>"
-					// + "<td>" + (i.ro ? "RO" : "RW") + "</b></td>"
-					+ "<td>"
-					+ (i.ro ? getResources().getString(
-							R.string.wifi_settings_mount_ro) : getResources()
-							.getString(R.string.wifi_settings_mount_rw))
-					+ "</b></td>" + "</tr>";
-		s += "</table>";
-		wv.loadDataWithBaseURL(null, s, "text/html", "utf-8", null);
-
-		//ScreenOrientation.set(this, prefs);
 	}
 
 	@Override
@@ -724,6 +642,5 @@ public class WiFiSettings extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		//app.generalOnResume(TAG, this);
 	}
 }
