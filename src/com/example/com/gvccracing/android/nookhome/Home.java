@@ -18,7 +18,6 @@ public class Home extends Activity {
 		//		getIntent().getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK);
 
 		Intent intent = new Intent(Home.this, MainActivity.class);
-		intent.putExtra("home", true);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivityForResult(intent, 0);
 	}

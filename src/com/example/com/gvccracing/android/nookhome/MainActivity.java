@@ -33,11 +33,6 @@ public class MainActivity extends Activity {
 
 	private TextView wifiText;
 	private TextView batteryText;
-	// get the battery change events
-	private boolean batteryLevelRegistered = false;	
-	private boolean powerReceiverRegistered = false;
-	private boolean wifiReceiverRegistered = false;
-
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,31 +43,13 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
         
-//        boolean homeKey;
-        // were we called from our home button?
-//        final Intent data = getIntent();
- //       if (data.getExtras() == null) {
-  //      	homeKey = false;
-//		} else {
-	//		homeKey = data.getBooleanExtra("home", false);
-//		}
+        setupTTTimerButton();
         
-        setupAllAppsButton();
+        setupLauncherButton();
         // set the text on the button
 		setupBatteryButton();
-	
-		registerForEvents();
-		
-		drawButtons();
-    }
-
-	@Override
-	public void onDestroy() {
-
-		unregisterForEvents();
-		super.onDestroy();
 	}
-	
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
@@ -84,26 +61,20 @@ public class MainActivity extends Activity {
      */
     private void registerForEvents()
     {
-		if (!powerReceiverRegistered) {
-			IntentFilter filter = new IntentFilter();
-			filter.addAction(Intent.ACTION_POWER_CONNECTED);
-			filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
-			registerReceiver(this.PowerChangeReceiver, new IntentFilter(filter));
-			powerReceiverRegistered = true;
-		}
+    	// listen for power events so we can display USB or AC in the power level
+		IntentFilter powerFilter = new IntentFilter();
+		powerFilter.addAction(Intent.ACTION_POWER_CONNECTED);
+		powerFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+		registerReceiver(this.PowerChangeReceiver, new IntentFilter(powerFilter));
 
-		if (!wifiReceiverRegistered) {
-			IntentFilter filter = new IntentFilter();
-			filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-			registerReceiver(this.WiFiChangeReceiver, new IntentFilter(filter));
-			wifiReceiverRegistered = true;
-		}
+		// listen for wifi connection events
+		IntentFilter wiFilFilter = new IntentFilter();
+		wiFilFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+		registerReceiver(this.WiFiChangeReceiver, new IntentFilter(wiFilFilter));
 		
-		if (!batteryLevelRegistered) {
-			IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-			registerReceiver(this.BatteryChangeReceiver, new IntentFilter(batteryLevelFilter));
-			batteryLevelRegistered = true;
-		}
+		// listen for power levels... the change in battery as charging
+		IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+		registerReceiver(this.BatteryChangeReceiver, new IntentFilter(batteryLevelFilter));
     }
     
     /*
@@ -111,21 +82,34 @@ public class MainActivity extends Activity {
      */
     private void unregisterForEvents()
     {
-    	if (powerReceiverRegistered)
+		unregisterReceiver(this.PowerChangeReceiver);
+    	unregisterReceiver(this.WiFiChangeReceiver);
+		unregisterReceiver(this.BatteryChangeReceiver);
+    }
+ 
+    /**
+     * Launches the TT Timer activity
+     */
+    private void setupTTTimerButton()
+    {
+    	try
     	{
-    		unregisterReceiver(this.PowerChangeReceiver);
-    		powerReceiverRegistered = false;
+    		// they can click on a text view
+    		((TextView) findViewById(R.id.gvcc_launch_title))
+			.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+		        	final String ttApp = "com.gvccracing.android.tttimer%com.gvccracing.android.tttimer.TTTimerTabsActivity%GVCC TT Timer";
+		        	Intent launchIntent = LaunchApplication.createIntentByString(ttApp);
+		    		launchIntent.setAction(Intent.ACTION_MAIN);
+		    		launchIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+		    		startActivity(launchIntent);    		
+				}
+			});
     	}
-    	if (wifiReceiverRegistered)
+    	catch (Exception e)
     	{
-        	unregisterReceiver(this.WiFiChangeReceiver);
-        	wifiReceiverRegistered = false;    		
+    		
     	}
-		if (batteryLevelRegistered)
-		{
-			unregisterReceiver(this.BatteryChangeReceiver);
-			batteryLevelRegistered = false;
-		}
     }
     
 	/* 
@@ -230,26 +214,19 @@ public class MainActivity extends Activity {
 					Toast.LENGTH_SHORT).show();
 			wifiManager.setWifiEnabled(true);
 		}
-		//drawButtons();
 	}
     
-    private void setupAllAppsButton()
+    private void setupLauncherButton()
     {
 		final ImageButton allAppsButton = ((ImageButton) findViewById(R.id.all_apps_btn));
 		// create a class to listen to button clicks
 		class AllAppsSimpleOnGestureListener extends SimpleOnGestureListener {
 			@Override
 			public boolean onSingleTapConfirmed(MotionEvent e) {
-				/*
+				
 				Intent intent = new Intent(MainActivity.this,
-						AllApplications.class);
-				intent.putExtra("list", "app_all");
-				// "All applications"
-				intent.putExtra(
-						"title",
-						getResources().getString(
-								R.string.jv_all_a));
-				startActivity(intent);*/
+						LaunchApplication.class);
+				startActivity(intent);
 				return true;
 			}
 
@@ -373,7 +350,10 @@ public class MainActivity extends Activity {
 								null, null);
 		}
 	}
-	
+
+	/**
+	 * Listen for charge changes like usb and ac
+	 */
 	private BroadcastReceiver PowerChangeReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -381,6 +361,9 @@ public class MainActivity extends Activity {
 		}
 	};
 
+	/**
+	 * Listen for wifi connection changes
+	 */
 	private BroadcastReceiver WiFiChangeReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -388,6 +371,9 @@ public class MainActivity extends Activity {
 		}
 	};
 
+	/**
+	 * listen for battery level changes like % charged
+	 */
 	private BroadcastReceiver BatteryChangeReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -396,8 +382,16 @@ public class MainActivity extends Activity {
 	};
 	
 	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		unregisterForEvents();
+	}
+	
+	@Override
 	protected void onResume() {
 		super.onResume();
+		registerForEvents();
 		drawButtons();
 	}
 }

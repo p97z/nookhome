@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/normal_bg"
+    android:orientation="vertical"
+    android:padding="5.3dp" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="56dp" >
+    
+        <ImageButton
+            android:id="@+id/launch_back_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="2.8"
+            android:background="@drawable/main_button"
+            android:minWidth="96dp"
+            android:src="@drawable/back_button_normal" >
+        </ImageButton>
+        
+
+        <TextView
+            android:id="@+id/launch_title"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/normal_bg_gray"
+            android:focusable="false"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="8dp"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/normal_fg"
+            android:textStyle="bold" />
+
+		<ImageView
+            android:id="@+id/launch_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:contentDescription=""
+            android:background="@color/normal_bg_gray"
+            android:src="@drawable/grid" />
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/app_grid_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5.3dp"
+        android:layout_weight="1" >
+
+        <GridView
+            android:id="@+id/app_grid"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:numColumns="2"
+            android:stretchMode="columnWidth" >
+        </GridView>
+    </LinearLayout>
+
+</LinearLayout>

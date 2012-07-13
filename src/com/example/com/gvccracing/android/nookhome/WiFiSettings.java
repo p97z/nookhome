@@ -1,11 +1,5 @@
 package com.example.com.gvccracing.android.nookhome;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,6 +27,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/**
+ * @author p97z
+ * Screen used to configure wifi networks for nook simple touch only
+ */
 public class WiFiSettings extends Activity {
 	
 	private String connectedSSID;
@@ -43,10 +41,11 @@ public class WiFiSettings extends Activity {
 	private List<NetInfo> wifiNetworks = new ArrayList<NetInfo>();
 	private WiFiAdapter adapter;
 	private ListView wifiListView;
-	private BroadcastReceiver scanResultsBroadcastReceiver;
-	private BroadcastReceiver wifiChangedBroadcastReceiver;
-	private List<Info> infos;
 
+	/**
+	 * @author p97z
+	 * Used to store network information
+	 */
 	static class NetInfo {
 		static int unknownLevel = -5000;
 		String SSID;
@@ -113,22 +112,13 @@ public class WiFiSettings extends Activity {
 		}
 	}
 
-	static class Info {
-		String dev;
-		String mpoint;
-		String fs;
-		String total;
-		String used;
-		String free;
-		boolean ro;
-	}
-
 	static class ViewHolder {
 		TextView tv1;
 		TextView tv2;
 		TextView tv3;
 		ImageView iv;
 	}
+	
 	class WiFiAdapter extends BaseAdapter {
 		final Context cntx;
 
@@ -227,7 +217,7 @@ public class WiFiSettings extends Activity {
 					s += ", "
 							+ getResources().getString(
 									R.string.wifi_settings_level) + " "
-							+ item.level + "dBm " + levelToString(item.level);
+							+ item.level + "dBm " + signalStrengthToString(item.level);
 					SpannableString s3 = new SpannableString(s);
 					s3.setSpan(Typeface.BOLD, 0, sl1, 0);
 					tv3.setText(s3);
@@ -244,7 +234,7 @@ public class WiFiSettings extends Activity {
 								+ " "
 								+ item.level
 								+ "dBm "
-								+ levelToString(item.level);
+								+ signalStrengthToString(item.level);
 					else
 						// "Not in range"
 						s = getResources().getString(
@@ -261,7 +251,12 @@ public class WiFiSettings extends Activity {
 		}
 	}
 
-	private String levelToString(int level) {
+	/**
+	 * converts the signal strength to a neat looking [*****] signal strength meter
+	 * @param level
+	 * @return
+	 */
+	private String signalStrengthToString(int level) {
 		if (level >= -56)
 			return "[\u25A0\u25A0\u25A0\u25A0\u25A0]";
 		if (level >= -63)
@@ -274,127 +269,12 @@ public class WiFiSettings extends Activity {
 			return "[\u25A0\u25A1\u25A1\u25A1\u25A1]";
 		return "[\u25A1\u25A1\u25A1\u25A1\u25A1]";
 	}
-/*
-	private int getMyId() {
-		int rc = -1;
 
-		for (String l : execFg("id")) {
-			Pattern p = Pattern.compile("uid=(\\d+)\\(");
-			Matcher m = p.matcher(l);
-			if (m.find()) {
-				try {
-					rc = Integer.parseInt(m.group(1));
-				} catch (NumberFormatException e) {
-					rc = -1;
-				}
-				if (rc != -1)
-					return rc;
-			}
-		}
-		return rc;
-	}
-*/
-	// Read file and return result as list of strings
-	private List<String> readFile(String fname) {
-		BufferedReader br;
-		String readLine;
-		List<String> rc = new ArrayList<String>();
-		try {
-			br = new BufferedReader(new InputStreamReader(new FileInputStream(
-					fname)), 1000);
-		} catch (FileNotFoundException e) {
-			return rc;
-		}
-		try {
-			while ((readLine = br.readLine()) != null)
-				rc.add(readLine);
-		} catch (IOException e) {
-			try {
-				br.close();
-			} catch (IOException e1) {
-			}
-			return rc;
-		}
-		try {
-			br.close();
-		} catch (IOException e) {
-		}
-
-		return rc;
-	}
-
-	// Execute foreground command and return result as list of strings
-	private List<String> execFg(String cmd) {
-		List<String> rc = new ArrayList<String>();
-		try {
-
-			Process p = Runtime.getRuntime().exec(cmd);
-			try {
-				DataInputStream ds = new DataInputStream(p.getInputStream());
-				String line;
-				while (true) {
-					line = ds.readLine();
-					if (line == null)
-						break;
-					rc.add(line);
-				}
-			} finally {
-				p.destroy();
-			}
-		} catch (IOException e) {
-		}
-		return rc;
-	}
-
-	private void createInfo() {
-		// Filesystem
-		infos = new ArrayList<Info>();
-		for (String s : readFile("/proc/mounts")) {
-			String[] f = s.split("\\s+");
-			if (f.length < 4)
-				continue;
-			String fs = f[2];
-			String flags = f[3];
-			String[] f1 = flags.split(",");
-			boolean ignore = false;
-//			for (int i = 0; i < ingnoreFs.length; i++)
-//				if (ingnoreFs[i].equals(fs)) {
-//					ignore = true;
-//					break;
-//				}
-			if (ignore)
-				continue;
-			Info in = new Info();
-			in.dev = f[0];
-			in.mpoint = f[1];
-			in.fs = fs;
-			for (int i = 0; i < f1.length; i++)
-				if (f1[i].equals("ro")) {
-					in.ro = true;
-					break;
-				} else if (f1[i].equals("rw")) {
-					in.ro = false;
-					break;
-				}
-			in.total = "0";
-			in.used = "0";
-			in.free = "0";
-			for (String l : execFg("df " + in.mpoint)) {
-				String[] e = l.split("\\s+");
-				if (e.length < 6)
-					continue;
-				in.total = e[1];
-				in.used = e[3];
-				in.free = e[5];
-			}
-
-			infos.add(in);
-		}
-
-		// UID
-//		myId = getMyId();
-	}
-
+	/**
+	 * reads the results from the network scan... the scan will find any new wifi devices in range
+	 * @param w
+	 * @return
+	 */
 	private List<NetInfo> readScanResults(WifiManager w) {
 		List<NetInfo> rc = new ArrayList<NetInfo>();
 		List<ScanResult> rc1 = w.getScanResults();
@@ -410,7 +290,6 @@ public class WiFiSettings extends Activity {
 			return rc;
 		}
 
-		// Merge uniq scanresult items with configured network info
 		for (ScanResult s : rc1) {
 			boolean alreadyHere = false;
 			for (NetInfo s1 : rc)
@@ -440,7 +319,7 @@ public class WiFiSettings extends Activity {
 			}
 		}
 
-		// Add confiured but not active networks
+		// Add configured but not active networks
 		for (WifiConfiguration wc : rc2) {
 			String ssid = wc.SSID;
 			if (ssid.startsWith("\"") && ssid.endsWith("\""))
@@ -458,7 +337,10 @@ public class WiFiSettings extends Activity {
 		return rc;
 	}
 
-	private void updateWiFiInfo() {
+	/**
+	 * update the wifi button and the list view with the wifi information
+	 */
+	private void updateWiFi() {
 		wifiOnOffButton.setEnabled(true);
 		if (wifiOn) {
 			// "Turn WiFi off"
@@ -511,8 +393,6 @@ public class WiFiSettings extends Activity {
 		MainActivity.setFullScreen(this);
 		setContentView(R.layout.wifisettings_layout);
 
-		createInfo();
-		
 		// initialize wifi
 		// Wifi
 		wfm = (WifiManager) getSystemService(Context.WIFI_SERVICE);
@@ -551,41 +431,16 @@ public class WiFiSettings extends Activity {
 			}
 		});
 
-		// Receive broadcast when scan results are available
-		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-		scanResultsBroadcastReceiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				wifiNetworks = readScanResults(wfm);
-				wifiScanButton.setEnabled(true);
-				adapter.notifyDataSetChanged();
-			}
-		};
-		registerReceiver(scanResultsBroadcastReceiver, intentFilter);
-
-		// Receive broadcast when WiFi status changed
-		IntentFilter wifiFilter = new IntentFilter();
-		wifiFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-		wifiFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-		wifiFilter.addAction(WifiManager.NETWORK_IDS_CHANGED_ACTION);
-		wifiFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
-		wifiFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
-		wifiChangedBroadcastReceiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				wifiOn = wfm.isWifiEnabled();
-				wifiNetworks = readScanResults(wfm);
-				wifiScanButton.setEnabled(true);
-				adapter.notifyDataSetChanged();
-				updateWiFiInfo();
-			}
-		};
-		registerReceiver(wifiChangedBroadcastReceiver, wifiFilter);
-
 		wifiOnOffButton = (Button) findViewById(R.id.wifi_onoff_btn);
-		updateWiFiInfo();
+		updateWiFi();
 
+		setupOtherButtons();
+	}
+
+	/**
+	 * listen for button clicks here, like power, lock and reboot
+	 */
+	private void setupOtherButtons() {
 		// launch the stock wifi settings for nook only
 		((Button) findViewById(R.id.wifi_setup_btn)).setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -624,8 +479,64 @@ public class WiFiSettings extends Activity {
 			public void onClick(View v) {
 				PowerFunctions.actionPowerOff(parent);
 			}
-		});
+		});		
 	}
+
+	/**
+	 * Start listening for events like wifi and scan results
+	 */
+	private void registerForEvents()
+	{
+		// Listen for WiFi status changed
+		IntentFilter wifiFilter = new IntentFilter();
+		wifiFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+		wifiFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+		wifiFilter.addAction(WifiManager.NETWORK_IDS_CHANGED_ACTION);
+		wifiFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+		wifiFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
+		registerReceiver(WiFiChangeReceiver, wifiFilter);
+		
+		// scan results are available
+		IntentFilter scanFilter = new IntentFilter();
+		scanFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+		registerReceiver(ScanResultsReceiver, scanFilter);
+	}
+	
+	
+	/**
+	 * Start listening for any events
+	 */
+	private void unregisterForEvents()
+	{
+		unregisterReceiver(WiFiChangeReceiver);
+		unregisterReceiver(ScanResultsReceiver);
+	}
+	
+	/**
+	 * Used to list for wifi changes
+	 */
+	private BroadcastReceiver WiFiChangeReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			wifiOn = wfm.isWifiEnabled();
+			wifiNetworks = readScanResults(wfm);
+			wifiScanButton.setEnabled(true);
+			adapter.notifyDataSetChanged();
+			updateWiFi();
+		}
+	};
+	
+	/**
+	 * Listen for when the scan button is complete
+	 */
+	private BroadcastReceiver ScanResultsReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			wifiNetworks = readScanResults(wfm);
+			wifiScanButton.setEnabled(true);
+			adapter.notifyDataSetChanged();
+		}
+	};
 
 	@Override
 	protected void onDestroy() {
@@ -635,12 +546,18 @@ public class WiFiSettings extends Activity {
 	@Override
 	protected void onStop() {
 		super.onStop();
-		unregisterReceiver(scanResultsBroadcastReceiver);
-		unregisterReceiver(wifiChangedBroadcastReceiver);
 	}
 
 	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		unregisterForEvents();
+	}
+	
+	@Override
 	protected void onResume() {
 		super.onResume();
+		registerForEvents();
 	}
 }

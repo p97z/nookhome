@@ -2,4 +2,13 @@
 
     <style name="AppTheme" parent="android:Theme.Light" />
 
+    <style name="textAppearanceSmall" parent="@android:attr/textAppearanceSmall">
+		<item name="android:textSize">10sp</item>
+	</style>
+    <style name="textAppearanceMedium" parent="@android:attr/textAppearanceMedium">
+		<item name="android:textSize">12sp</item>
+	</style>
+	<style name="textAppearanceLarge" parent="@android:attr/textAppearanceLarge">
+		<item name="android:textSize">14sp</item>
+	</style>	
 </resources>
