@@ -456,30 +456,6 @@ public class WiFiSettings extends Activity {
 			}
 		});
 
-		// Lock button
-		final Activity parent = this;
-		Button lockBtn = (Button) findViewById(R.id.lock_btn);
-		lockBtn.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				if (PowerFunctions.actionLock(parent)) {
-					parent.finish();
-				}
-			}
-		});
-
-		// Reboot button
-		((Button) findViewById(R.id.reboot_btn)).setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				PowerFunctions.actionReboot(parent);
-			}
-		});
-
-		// Power Off button
-		((Button) findViewById(R.id.poweroff_btn)).setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				PowerFunctions.actionPowerOff(parent);
-			}
-		});		
 	}
 
 	/**

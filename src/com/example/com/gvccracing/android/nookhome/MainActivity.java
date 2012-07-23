@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -51,6 +52,8 @@ public class MainActivity extends Activity {
 		setupBatteryButton();
 
 		setupWiFiButton();
+		// setup lock, shutdown and reboot buttons
+		setupOtherButtons();
     }
 
     /**
@@ -136,7 +139,38 @@ public class MainActivity extends Activity {
     		
     	}
     }
-    
+
+	/**
+	 * listen for button clicks here, like power, lock and reboot
+	 */
+	private void setupOtherButtons() {
+		
+		// Lock button
+		final Activity parent = this;
+		Button lockBtn = (Button) findViewById(R.id.lock_btn);
+		lockBtn.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				if (PowerFunctions.actionLock(parent)) {
+					parent.finish();
+				}
+			}
+		});
+
+		// Reboot button
+		((Button) findViewById(R.id.reboot_btn)).setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				PowerFunctions.actionReboot(parent);
+			}
+		});
+
+		// Power Off button
+		((Button) findViewById(R.id.poweroff_btn)).setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				PowerFunctions.actionPowerOff(parent);
+			}
+		});		
+	}
+
 	/* 
 	 * sets up the battery layout as a button... 
 	 */
