@@ -19,6 +19,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.View.OnTouchListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,9 +49,33 @@ public class MainActivity extends Activity {
         setupLauncherButton();
         // set the text on the button
 		setupBatteryButton();
+
+		setupWiFiButton();
+    }
+
+    /**
+     * setup the wifi button to fo to the wifi setup screen
+     */
+    private void setupWiFiButton() {
+    	try
+    	{
+    		// they can click on a text view
+    		((Button) findViewById(R.id.setup_wifi_btn))
+			.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					// show the wifisettings activity
+					Intent i = new Intent(MainActivity.this, WiFiSettings.class);
+					startActivity(i);
+				}
+			});
+    	}
+       	catch (Exception e)
+    	{
+    		
+    	}
 	}
 
-    @Override
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
@@ -95,7 +120,7 @@ public class MainActivity extends Activity {
     	try
     	{
     		// they can click on a text view
-    		((TextView) findViewById(R.id.gvcc_launch_title))
+    		((Button) findViewById(R.id.gvcc_launch_title))
 			.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 		        	final String ttApp = "com.gvccracing.android.tttimer%com.gvccracing.android.tttimer.TTTimerTabsActivity%GVCC TT Timer";
@@ -159,7 +184,7 @@ public class MainActivity extends Activity {
 		}
 		
 		batteryText = (TextView) findViewById(R.id.bat_level);
-		wifiText = (TextView) findViewById(R.id.bat_title);		
+		wifiText = (TextView) findViewById(R.id.wifi_title);		
     }
     
     
@@ -218,7 +243,7 @@ public class MainActivity extends Activity {
     
     private void setupLauncherButton()
     {
-		final ImageButton allAppsButton = ((ImageButton) findViewById(R.id.all_apps_btn));
+		final Button allAppsButton = ((Button) findViewById(R.id.all_apps_btn));
 		// create a class to listen to button clicks
 		class AllAppsSimpleOnGestureListener extends SimpleOnGestureListener {
 			@Override

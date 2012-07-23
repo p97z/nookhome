@@ -1,97 +1,171 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
-
-        <LinearLayout
-    	android:id="@+id/linearLayoutBottom"
-    	android:layout_width="fill_parent"
-    	android:layout_height="56dp"
-    	android:layout_gravity="center"
-    	android:weightSum="2.65"
-    	android:layout_marginTop="8dp" >
-
-        <LinearLayout
-            android:id="@+id/launch_tt_layout"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/main_button"
-            android:clickable="true"
-            android:orientation="vertical" >
-                    
-            <TextView
-                android:id="@+id/gvcc_launch_title"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="1"
-                android:background="@color/normal_transparent"
-                android:gravity="center"
-                android:clickable="true"
-                android:text="@string/gvcc_racing_button_text"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/normal_fg" >
-            </TextView>
-
-        </LinearLayout>
+    android:layout_height="fill_parent"
+    android:background="@color/normal_bg"
+    android:orientation="vertical"
+    android:padding="8dp" >
+    
+    <LinearLayout
+        android:id="@+id/bat_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2" >
 
         <ImageButton
-            android:id="@+id/all_apps_btn"
-            android:layout_width="0dp"
+            android:id="@+id/back_btn"
+            android:layout_width="120dp"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
-            android:layout_weight="0.65"
-            android:contentDescription="@string/all_apps"
+            android:layout_marginRight="1dp"
             android:background="@drawable/main_button"
-            android:src="@drawable/grid"
-            android:text="@string/all_apps" >
-        </ImageButton>
-
-        <LinearLayout
-            android:id="@+id/bat_layout"
-            android:layout_width="0dp"
+            android:minWidth="96dp"
+            android:src="@drawable/back_button_normal" />
+        
+        <TextView
+            android:id="@+id/wifi_title"
+            android:layout_width="300dp"
             android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:background="@color/normal_bg_gray"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:paddingLeft="8dp"
+            android:text="Nook Home Launcher"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/normal_fg"
+            android:textStyle="bold" />
+        
+        <TextView
+            android:id="@+id/bat_level"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:background="@color/normal_transparent"
+            android:gravity="right"
+            android:text="@string/main_launcher_nb_layout_b"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/normal_fg"
+            android:textStyle="bold" >
+
+            </TextView>
+                
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/linearLayoutTop"
+        android:layout_width="fill_parent"
+        android:layout_height="500dp"
+        android:layout_marginTop="80dp"
+        android:orientation="vertical" >
+    
+    <Button
+        android:id="@+id/gvcc_launch_title"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/main_button"
+        android:drawableTop="@drawable/grid"
+        android:paddingBottom="5dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"    
+        android:text="@string/gvcc_racing_button_text" >
+    </Button>
+
+    <Button
+        android:id="@+id/all_apps_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/main_button"
+        android:drawableTop="@drawable/grid"
+        android:paddingBottom="5dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"    
+        android:text="@string/all_apps" >
+    </Button>
+    
+    <Button
+        android:id="@+id/setup_wifi_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/main_button"
+        android:drawableTop="@drawable/tools"
+        android:paddingBottom="5dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"    
+        android:text="@string/main_setup_wifi" >
+    </Button>
+    
+    
+        <LinearLayout
+        android:id="@+id/linearLayout10"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="0dp"
+        android:layout_weight="0.5" >
+
+        <Button
+            android:id="@+id/lock_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="110dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:background="@drawable/main_button"
+            android:drawableTop="@drawable/lock"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:text="@string/wifi_settings_lock" >
+        </Button>
+
+        <Button
+            android:id="@+id/reboot_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="110dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:background="@drawable/main_button"
+            android:drawableTop="@drawable/reboot"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:text="@string/wifi_settings_reboot" >
+        </Button>
+
+        <Button
+            android:id="@+id/poweroff_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="110dp"
+            android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
             android:background="@drawable/main_button"
-            android:clickable="true"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/bat_title"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_weight="1"
-                android:background="@color/normal_transparent"
-                android:drawableRight="@drawable/wifi_on"
-                android:gravity="center"
-                android:text="@string/main_launcher_nb_layout_battery"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/normal_fg" >
-            </TextView>
-
-            <TextView
-                android:id="@+id/bat_level"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_weight="1"
-                android:background="@color/normal_transparent"
-                android:gravity="center"
-                android:text="@string/main_launcher_nb_layout_b"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/normal_fg"
-                android:textStyle="bold" >
-            </TextView>
-        </LinearLayout>
+            android:drawableTop="@drawable/power"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:text="@string/wifi_settings_poweroff" >
+        </Button>
     </LinearLayout>
-</RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
