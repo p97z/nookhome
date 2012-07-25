@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/bat_layout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:weightSum="2" >
 
         <ImageButton
@@ -20,7 +20,7 @@
             android:layout_marginRight="1dp"
             android:background="@drawable/main_button"
             android:minWidth="96dp"
-            android:src="@drawable/back_button_normal" />
+            android:src="@drawable/home" />
         
         <TextView
             android:id="@+id/wifi_title"
@@ -39,12 +39,11 @@
         <TextView
             android:id="@+id/bat_level"
             android:layout_width="75dp"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            android:background="@color/normal_transparent"
-            android:gravity="right"
+            android:background="@drawable/main_button"
             android:text="@string/main_launcher_nb_layout_b"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/normal_fg"
