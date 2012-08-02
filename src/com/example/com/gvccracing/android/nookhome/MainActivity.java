@@ -387,25 +387,25 @@ public class MainActivity extends Activity {
 				batteryText
 						.setCompoundDrawablesWithIntrinsicBounds(
 								getResources().getDrawable(
-										R.drawable.bat1), null,
+										R.drawable.batteryempty), null,
 								null, null);
 			else if (level < 50)
 				batteryText
 						.setCompoundDrawablesWithIntrinsicBounds(
 								getResources().getDrawable(
-										R.drawable.bat2), null,
+										R.drawable.batterylow), null,
 								null, null);
 			else if (level < 75)
 				batteryText
 						.setCompoundDrawablesWithIntrinsicBounds(
 								getResources().getDrawable(
-										R.drawable.bat3), null,
+										R.drawable.batteryhalf), null,
 								null, null);
 			else
 				batteryText
 						.setCompoundDrawablesWithIntrinsicBounds(
 								getResources().getDrawable(
-										R.drawable.bat4), null,
+										R.drawable.batteryfull), null,
 								null, null);
 		}
 	}
